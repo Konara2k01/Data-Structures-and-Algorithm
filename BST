@@ -42,28 +42,31 @@ struct node* deleteNode(struct node* root, int key) {
     else if(key<root->key) root->left = deleteNode(root->left,key);
 
     else{
-
+        // leaf node
         if( root->left== nullptr && root->right== nullptr ){
             delete root;
             return nullptr;
         }
-
+        // node has no right child
         else if(root->right== nullptr) {
             auto newLeft = root->left;
             delete root;
             return newLeft;
         }
-
+        // node has no left child
         else if(root->left== nullptr) {
             auto newRight = root->right;
             delete root;
             return newRight;
         }
-
+        // node has both left & right child
         else{
+            
+            // find min in right tree
             auto rightMin = root->right;
             while(rightMin->left!= nullptr)
                 rightMin=rightMin->left;
+            // assign min value to current node and delete rightMinValue node    
             root->key = rightMin->key;
             root->right = deleteNode(root->right,rightMin->key);
         }
